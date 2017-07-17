@@ -1,13 +1,29 @@
 <template>
-    <div class="recommend" ref="recommend">
-    
+  <div class="recommend" ref="recommend">
+    <div class="recommend-content">
+      <div class="slider-wrapper" v-if="recommends.length">
+        <Slider>
+          <div v-for = "list in recommends">
+            <a :href="list.linkUrl">
+              <img :src="list.picUrl" alt="">
+            </a>
+          </div>
+        </Slider>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import Slider from 'base/slider/slider'
   import { getRecommend } from 'api/recommend'
   import { ERR_OK } from 'api/config'
   export default {
+    data () {
+      return {
+        recommends: []
+      }
+    },
     created () {
       this._getRecommend()
     },
@@ -16,14 +32,18 @@
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
             console.log(res)
+            this.recommends = res.data.slider
           }
         })
       }
+    },
+    components: {
+      Slider
     }
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
 
   .recommend
