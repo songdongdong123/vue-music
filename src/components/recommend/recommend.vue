@@ -1,44 +1,77 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div class="recommend-content">
-      <div class="slider-wrapper" v-if="recommends.length">
-        <Slider>
-          <div v-for = "list in recommends">
-            <a :href="list.linkUrl">
-              <img :src="list.picUrl" alt="">
-            </a>
-          </div>
-        </Slider>
+    <Scorll ref ="scorll" class="recommend-content" :data="discList">
+      <div>
+        <div class="slider-wrapper" v-if="recommends.length">
+          <Slider>
+            <div v-for = "list in recommends">
+              <a :href="list.linkUrl">
+                <img @load="loadImage" :src="list.picUrl" alt="">
+              </a>
+            </div>
+          </Slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for="(list, index) in discList" class="item">
+              <div class="icon">
+                <img width="60px" height="60px" :src="list.imgurl">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="list.creator.name"></h2>
+                <p class="desc" v-html="list.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </Scorll>
   </div>
 </template>
 
 <script>
   import Slider from 'base/slider/slider'
-  import { getRecommend } from 'api/recommend'
+  import Scorll from 'base/scroll/scorll'
+  import { getRecommend, getDiscList } from 'api/recommend'
   import { ERR_OK } from 'api/config'
   export default {
     data () {
       return {
-        recommends: []
+        recommends: [],
+        discList: []
       }
     },
     created () {
       this._getRecommend()
+      this._getDiscList()
     },
     methods: {
       _getRecommend () {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
-            console.log(res)
             this.recommends = res.data.slider
           }
         })
+      },
+      _getDiscList () {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            this.discList = res.data.list
+            console.log(this.discList)
+          }
+        })
+      },
+      loadImage () {
+        if (!this.checkLoaded) {
+          this.$refs.scorll.refresh()
+          this.checkLoaded = true
+        }
       }
     },
     components: {
-      Slider
+      Slider,
+      Scorll
     }
   }
 </script>
