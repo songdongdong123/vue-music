@@ -1,6 +1,6 @@
 <template>
   <div class="slider" ref="slider">
-  <!--这里的ref是子组件的索引，供我们获取dom元素来使用-->
+  <!--这里的ref是子组件的索引，供我们获取dom元素来使用测试时-->
     <div class="slider-group" ref="sliderGroup">
       <slot>
       </slot>
