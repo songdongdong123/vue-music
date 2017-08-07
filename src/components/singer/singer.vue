@@ -25,7 +25,6 @@
         getSingetList().then((res) => {
           if (res.code === ERR_OK) {
             this.singer = this._normaLizeSinger(res.data.list)
-            console.log(this.singer)
           }
         })
       },

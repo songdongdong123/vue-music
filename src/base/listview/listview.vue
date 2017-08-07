@@ -11,6 +11,13 @@
         </ul>
       </li>
     </ul>
+    <div class="list-shortcut" @touchstart="onShortcutTouchStart">
+      <ul>
+        <li v-for="(item, index) in shortcutList" class="item" :data-index="index">
+          {{item}}
+        </li>
+      </ul>
+    </div>
   </Scorll>
 </template>
 
@@ -21,6 +28,19 @@
       data: {
         type: Array,
         default: []
+      }
+    },
+    computed: {
+      shortcutList () {
+        return this.data.map((group) => {
+          return group.title.substr(0, 1)
+        })
+      }
+    },
+    methods: {
+      onShortcutTouchStart (e) {
+        // 触摸事件
+        console.log(e)
       }
     },
     components: {
