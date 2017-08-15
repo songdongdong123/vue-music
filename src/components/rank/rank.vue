@@ -1,6 +1,6 @@
 <template>
   <div>
-    排行旁页面
+    正在努力开发中.......
   </div>
 </template>
 

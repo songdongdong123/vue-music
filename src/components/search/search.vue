@@ -1,6 +1,6 @@
 <template>
   <div>
-    搜索页面
+    正在努力开发中.......
   </div>
 </template>
 
