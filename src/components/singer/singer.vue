@@ -27,6 +27,7 @@
         this.$router.push({
           path: `/singer/${singer.id}`
         })
+        // 因为我们在下面...mapMutations中做了setSinger的映射，这里实际就是调用mutations.js中的types.SET_SINGER方法
         this.setSinger(singer)
       },
       _getSingerList () {
@@ -79,6 +80,7 @@
         return hot.concat(ret)
       },
       ...mapMutations({
+        // 这里的setSinger是用来映射到mutation-types.js中的SET_SINGER
         setSinger: 'SET_SINGER'
       })
     },
