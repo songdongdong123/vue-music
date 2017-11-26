@@ -17,7 +17,7 @@
     <scroll :data="songs" @scroll="scroll"
             :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list @select="selectItem" :songs="songs"></song-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
@@ -32,6 +32,7 @@
   import SongList from 'base/song-list/song-list'
   import { prefixStyle } from 'common/js/dom'
   import { playlistMixin } from 'common/js/mixin'
+  import { mapActions } from 'vuex'
 
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -84,6 +85,7 @@
         this.$router.back()
       },
       selectItem (item, index) {
+        // 这里使用actions封装好的mutations
         this.selectPlay({
           list: this.songs,
           index
@@ -93,7 +95,11 @@
         this.randomPlay({
           list: this.songs
         })
-      }
+      },
+      // 获取Actions
+      ...mapActions([
+        'selectPlay'
+      ])
     },
     watch: {
       scrollY (newVal) {
