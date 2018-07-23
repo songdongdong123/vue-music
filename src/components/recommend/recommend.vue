@@ -12,7 +12,7 @@
           </Slider>
         </div>
         <div class="recommend-list">
-          <h1 class="list-title">热门歌单推荐</h1>
+          <h1 class="list-title" @click="testClick">热门歌单推荐</h1>
           <ul>
             <li v-for="(list, index) in discList" class="item">
               <div class="icon">
@@ -34,23 +34,45 @@
 </template>
 
 <script>
+  // import axios from 'axios'
   import Loading from 'base/loading/loading'
   import Slider from 'base/slider/slider'
   import Scorll from 'base/scroll/scorll'
   import { getRecommend, getDiscList } from 'api/recommend'
   import { ERR_OK } from 'api/config'
+  // 测试代码可以删除
+  import { mapMutations } from 'vuex'
   export default {
     data () {
       return {
         recommends: [],
-        discList: []
+        discList: [],
+        test: {
+          name: 'ethan',
+          age: 18
+        }
       }
     },
+    computed: {},
     created () {
+      this._getTest()
       this._getRecommend()
       this._getDiscList()
     },
     methods: {
+      testClick () {
+        // 测试代码可以删除
+        this.setTest(this.test)
+      },
+      _getTest () {
+        // axios.get('https://api.douban.com/v2/movie/top250', {
+        //   headers: {
+        //     'X-Requested-With': 'XMLHttpRequest'
+        //   }
+        // }).then(res => {
+        //   console.log(res)
+        // })
+      },
       _getRecommend () {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
@@ -62,7 +84,7 @@
         getDiscList().then((res) => {
           if (res.code === ERR_OK) {
             this.discList = res.data.list
-            console.log(this.discList)
+            // console.log(this.discList)
           }
         })
       },
@@ -71,7 +93,10 @@
           this.$refs.scorll.refresh()
           this.checkLoaded = true
         }
-      }
+      },
+      ...mapMutations({
+        setTest: 'SET_TEST'
+      })
     },
     components: {
       Slider,

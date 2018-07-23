@@ -5,7 +5,17 @@
 </template>
 
 <script>
-  
+  import { mapGetters } from 'vuex'
+  export default {
+    computed: {
+      ...mapGetters([
+        'test'
+      ])
+    },
+    created () {
+      console.log(this.test)
+    }
+  }
 </script>
 
 <style lang="stylus">
